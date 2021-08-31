@@ -1,0 +1,18 @@
+{
+  "root": true,
+  "env": {
+    "browser": false,
+    "node": true,
+    "es2021": true
+  },
+  "extends": ["@france-atelier/eslint-config-backend"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "@typescript-eslint/consistent-type-imports": "off"
+  }
+}

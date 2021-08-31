@@ -1,0 +1,67 @@
+package*.json
+tsconfig.json
+
+#### .gitignore
+
+# NPM and build files
+node_modules
+dist
+tmp
+build
+coverage
+junit.xml
+
+# Local files
+.npmrc
+.env
+*.priv
+*.log
+*.bak
+
+# System files (MacOS, Linux, Windows)
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# WebStorm
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/mongoSettings.xml
+*.iws
+out/
+.idea_modules/
+.idea/httpRequests

@@ -1,0 +1,17 @@
+{
+  "extension": ["ts"],
+  "reporter": "mocha-multi-reporters",
+  "reporterEnabled": "spec, mocha-junit-reporter",
+  "reporterOptions": "configFile=.mocharc.json",
+  "mochaJunitReporterReporterOptions": {
+    "mochaFile": "./junit.xml",
+    "includePending": true,
+    "outputs": true
+  },
+  "require": [
+    "ts-node/register/transpile-only",
+    "tsconfig-paths/register",
+    "test/helpers/root-hooks.ts"
+  ],
+  "timeout": 10000
+}

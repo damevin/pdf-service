@@ -1,0 +1,4 @@
+{
+  "reporter": ["lcov", "cobertura", "text"],
+  "exclude": ["test", "src/**/*.spec.ts", "src/boot"]
+}
