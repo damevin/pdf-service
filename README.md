@@ -151,5 +151,3 @@ locally with `docker build .` after cloning the repository.
 It is recommended to use docker-compose to run this project. You will
 need to depend on a MongoDB database (that may be external), and to
 configure all environment variables in your Dockerfile.
-
-TODO : IDP
