@@ -1,14 +1,22 @@
 import { Profile, ProfileBase, Profiles } from "$models/profile.model";
+import { ProfileBody } from "$schemas/profiles.schemas";
+import { factory } from "factory-girl";
+import faker from "faker";
 
-export const basicUser: ProfileBase = {
+factory.define<ProfileBody>("Profile", Profiles, {
   archived: false,
-  username: "Winter",
-  bio: "I am a software developer and I like baking.",
-  city: "Grenoble",
-};
+  username: () => faker.name.firstName(),
+  bio: () => faker.lorem.sentence(),
+  city: () => faker.address.city(),
+});
 
 export const createTestProfile = async (params: Partial<ProfileBase> = {}): Promise<Profile> => {
-  return await Profiles.create(Object.assign({}, basicUser, params));
+  const testProfile = await factory.build<ProfileBody>("Profile", params);
+  return await insertTestProfile(testProfile);
+};
+
+export const insertTestProfile = async (testProfile: ProfileBody): Promise<Profile> => {
+  return await Profiles.create(testProfile);
 };
 
 export const deleteTestProfiles = async (): Promise<void> => {

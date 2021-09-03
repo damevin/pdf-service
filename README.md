@@ -88,6 +88,12 @@ are provided to help with writing tests.
 
 You can refer to the example routes in this project, to learn how to write and test routes.
 
+These routes use JSON schemas for input (and output) data validation, that are defined in
+`src/schemas`. TypeScript types can be infered from `as const` JSON schemas, as shown in
+the examples. A single schema is used at the same time to validate data, to add typings to
+the routes, and also to generate a swagger / OpenAPI documentation at runtime.
+This documentation can be read at the `/docs` endpoint when the server is running.
+
 ### Logging
 
 It is advised to avoid `console`. In most cases, the recommended way to log things
@@ -145,3 +151,5 @@ locally with `docker build .` after cloning the repository.
 It is recommended to use docker-compose to run this project. You will
 need to depend on a MongoDB database (that may be external), and to
 configure all environment variables in your Dockerfile.
+
+TODO : IDP

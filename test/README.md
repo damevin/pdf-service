@@ -19,9 +19,13 @@ Tests have the extension `.spec.ts`, and can be written in two places:
 
 If you need to write other kinds of test (behavior tests, smoke/canary tests,
 or anything else), it is possible. If you need to install dev dependencies to
-mock, spy or stub services (like sinon), generate fake test data (like
-factory-girl and faker or json-schema-faker), or perform property-based
-testing (like fast-check), please go ahead!
+mock, spy or stub services (like sinon), generate more test data (like
+json-schema-faker), perform property-based testing (like fast-check), or
+anything else, please go ahead!
+
+In the test examples, [`faker`](https://github.com/Marak/Faker.js) and
+[`factory-girl`](https://github.com/simonexmachina/factory-girl) are used
+to generate fake data.
 
 ## Route tests
 
