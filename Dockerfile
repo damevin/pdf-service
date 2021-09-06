@@ -1,6 +1,5 @@
 # Prepare
 FROM node:14-bullseye-slim AS build-env
-USER node
 WORKDIR /app
 COPY .npmrc ./
 COPY tsconfig.json ./
