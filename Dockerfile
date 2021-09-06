@@ -16,8 +16,8 @@ RUN npm ci --production
 FROM node:14-bullseye-slim
 USER node
 WORKDIR /app
-COPY --from=build-env /app/node_modules ./node_modules
-COPY --from=build-env /app/build ./build
+COPY --chown=node --from=build-env /app/node_modules ./node_modules
+COPY --chown=node --from=build-env /app/build ./build
 
 # Deploy
 ENV NODE_ENV="production" PORT=4005
