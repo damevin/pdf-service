@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify";
 import gracefulShutdown from "http-graceful-shutdown";
 import fastifyMetrics from "fastify-metrics";
 import { env } from "./environment";
+import { disconnect } from "mongoose";
 
 /** Handle graceful start and graceful shutdown for PM2, K8S, etc. */
 export const addProbes = (server: FastifyInstance): void => {
@@ -11,7 +12,7 @@ export const addProbes = (server: FastifyInstance): void => {
     development: env.isDevelopment,
     onShutdown: async (signal) => {
       server.log.info("Shutting down server after receiving %s signal", signal);
-      // TODO await close database
+      await disconnect();
     },
   });
 
