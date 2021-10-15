@@ -20,10 +20,9 @@ export const timestamps = {
 };
 
 /**
- * Decorates the given base interface with automatic (required) timestamps.
- * The base interface can have optional timestamps declared, or none at all.
+ * Interface that represents automatic timestamps.
  */
-export type Timestamps<Base> = Omit<Base, "createdAt" | "updatedAt"> & {
+export interface Timestamps {
   /** Creation date (automatic). */
   createdAt: Date;
   /** Last updated date (automatic). */

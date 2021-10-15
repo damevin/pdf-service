@@ -10,15 +10,11 @@ export interface ProfileBase {
   bio: string;
   /** Main city of residence for this user. */
   city: string;
-  /** Creation date (automatic). */
-  createdAt?: Date;
-  /** Last updated date (automatic). */
-  updatedAt?: Date;
 }
 
-export interface Profile extends Document, Timestamps<ProfileBase> {}
+export interface Profile extends Document, ProfileBase, Timestamps {}
 
-const profileFields: Fields<Timestamps<ProfileBase>> = {
+const profileFields: Fields<ProfileBase> = {
   archived: { type: Boolean, default: false, index: true },
   username: { type: String, required: true, index: true },
   bio: { type: String, default: "" },
