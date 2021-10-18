@@ -27,4 +27,4 @@ export interface Timestamps {
   createdAt: Date;
   /** Last updated date (automatic). */
   updatedAt: Date;
-};
+}
