@@ -12,6 +12,7 @@ junit.xml
 *.priv
 *.log
 *.bak
+deploy/data-persistence
 
 # System files (MacOS, Linux, Windows)
 .DS_Store

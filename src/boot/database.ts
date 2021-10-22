@@ -12,11 +12,14 @@ config();
 export const dbConf = customCleanEnv(
   process.env as unknown,
   {
-    MONGODB_HOST: str({ devDefault: "localhost" }),
-    MONGODB_USER: str({ default: "" }),
-    MONGODB_PASS: str({ default: "" }),
-    MONGODB_NAME: str(),
-    MONGODB_SECURE: str({ choices: ["tls", "self-signed", "off"] }),
+    MONGODB_HOSTNAME: str({ devDefault: "localhost" }),
+    MONGODB_USERNAME: str({ default: "" }),
+    MONGODB_PASSWORD: str({ default: "" }),
+    MONGODB_DATABASE: str(),
+    MONGODB_SECURE: str({
+      choices: ["tls", "self-signed", "off"],
+      default: "off",
+    }),
   },
   accessorMiddleware
 );
@@ -24,11 +27,11 @@ export const dbConf = customCleanEnv(
 /** Manage connection to the MongoDB database */
 export const setupDatabase = (server: FastifyInstance): void => {
   const appName = server.app.name;
-  const dbName = dbConf.MONGODB_NAME;
-  const username = dbConf.MONGODB_USER;
-  const password = dbConf.MONGODB_PASS;
+  const dbName = dbConf.MONGODB_DATABASE;
+  const username = dbConf.MONGODB_USERNAME;
+  const password = dbConf.MONGODB_PASSWORD;
   const secure = dbConf.MONGODB_SECURE;
-  const uri = new URL(dbName, "mongodb://" + dbConf.MONGODB_HOST);
+  const uri = new URL(dbName, "mongodb://" + dbConf.MONGODB_HOSTNAME);
 
   server.log.info({ dbName }, "Connecting to the database");
   try {

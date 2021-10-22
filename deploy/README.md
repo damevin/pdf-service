@@ -1,0 +1,127 @@
+# Deploying this project
+
+## Table of contents
+
+- [Deploying this project](#deploying-this-project)
+  - [Table of contents](#table-of-contents)
+  - [Manual deployment](#manual-deployment)
+  - [Deploy using Docker](#deploy-using-docker)
+    - [Building an image](#building-an-image)
+    - [Running the image](#running-the-image)
+  - [Administration](#administration)
+    - [Data migration](#data-migration)
+    - [Supervision](#supervision)
+  - [Troubleshooting](#troubleshooting)
+    - [Command not found or not recognized](#command-not-found-or-not-recognized)
+    - [The MongoDB connection isn't established](#the-mongodb-connection-isnt-established)
+    - [Missing `pino-pretty` module](#missing-pino-pretty-module)
+
+## Manual deployment
+
+You need to:
+
+1. Have [Node.js](https://nodejs.org/en/) installed on your machine
+2. Spin up a [MongoDB database](https://www.mongodb.com/)
+3. Clone this repository locally using Git, and `cd` into the directory
+4. Create a `.npmrc` file and configure an access token to Keybas' private NPM registry ;
+   you can ask us to provide you with this file (it must stay private — do not commit it!)
+5. Run `npm ci` to install required dependencies
+6. Create a `.env` file and configure all environment variables
+
+Then will be able to run the following commands to build _then_ run the project:
+
+```sh
+npm run build
+npm run start
+```
+
+## Deploy using Docker
+
+### Building an image
+
+There is a Gitlab CI job configured that publishes a Docker image in the private container
+registry for this project. This job is run every time a commit is pushed/merged onto the
+`main` branch.
+
+It is possible to pull and run this image locally or on a server, after authenticating
+with `docker login registry.gitlab.com`. The image identifier should be:
+
+```text
+registry.gitlab.com/france-atelier/templates/template-backend-fastify:latest
+```
+
+If you have made local changes to the codebase and wish to generate your own image,
+you can also generate the image locally with `docker build .` in the repository.
+
+In order to build the image manually, you need to create a `.npmrc` file and
+configure an access token to Keybas' private NPM registry ; you can ask us to provide
+you with this file (it must stay private — do not commit it!).
+
+### Running the image
+
+In order to run, this project needs a MongoDB database, and values for the environment
+variables shown in the project's [`.env.example`](../.env.example) file.
+
+Using Docker, this requires you to:
+
+1. Create a `.env` file with all the right variables declared
+2. Pull a [`mongo` image](https://hub.docker.com/_/mongo)
+3. Create a network to allow communication between this service and the database
+4. Create volumes for data persistence (for both the DB and this service)
+5. Run both images with the correct network, volumes, and environment variables
+
+It is easier, and recommended, to use a Compose file to run this project.
+For a working example, take a look at the [`docker-compose.yml`](docker-compose.yml)
+file provided with this repository.
+
+With a few tweaks to this Compose file (to set your own values for the environment
+variables, to point volumes to the correct directories for data persistence), running
+the project is straightforward:
+
+```sh
+# Download or update the images
+docker-compose pull
+# Run the services in the background
+# After an image update or config change, you may add the `--force-recreate` flag
+docker-compose up -d
+```
+
+## Administration
+
+### Data migration
+
+TODO
+
+### Supervision
+
+This project exports liveness and readiness probes for K8S, as well as Prometheus
+metrics, and JSON logs that can be sent asynchronously to a third-party service
+for log analysis and monitoring.
+
+TODO
+
+## Troubleshooting
+
+### Command not found or not recognized
+
+When running an NPM script (for instance `npm run build`), this error happens
+when the required dependencies are missing. Simply run `npm ci` on the command
+line to install all the project's dependencies, then try again.
+
+### The MongoDB connection isn't established
+
+Make sure the MongoDB server is running and that you can access it using another
+client (for instance Robo3T).
+
+If the MongoDB server is configured with a SSL/TLS certificate, you should set
+the `MONGODB_SECURE` environment variable to either `tls` or `self-signed`,
+depending on whether the certificate has been emitted by a trusted certificate
+authority (for instance Let's Encrypt), or has been self-generated and signed
+(for instance using OpenSSL). Default is `off`.
+
+### Missing `pino-pretty` module
+
+The `pino-pretty` package is installed as a dev-only dependency. If you're running
+the project as a Docker container, dev dependencies are not included and you should
+set the `NODE_ENV` environment variable to `production` to prevent the application
+from trying to load `pino-pretty`.
