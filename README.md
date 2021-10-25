@@ -6,6 +6,24 @@ This is a skeleton project for a REST API using [NodeJS](https://nodejs.org/en/)
 It connects to a [MongoDB database](https://www.mongodb.com/) using
 [Mongoose](https://mongoosejs.com/).
 
+## Table of contents
+
+- [Backend skeleton project](#backend-skeleton-project)
+  - [Table of contents](#table-of-contents)
+  - [Configuration](#configuration)
+    - [NPM configuration](#npm-configuration)
+    - [Project configuration (env vars)](#project-configuration-env-vars)
+  - [Development](#development)
+    - [Workflow](#workflow)
+    - [Commands](#commands)
+    - [Project structure](#project-structure)
+    - [Writing routes](#writing-routes)
+    - [Logging](#logging)
+    - [Keeping the documentation up-to-date](#keeping-the-documentation-up-to-date)
+  - [Testing](#testing)
+  - [Deployment](#deployment)
+  - [Troubleshooting](#troubleshooting)
+
 ## Configuration
 
 ### NPM configuration
@@ -13,17 +31,33 @@ It connects to a [MongoDB database](https://www.mongodb.com/) using
 In order to install some private dependencies, you will need to create a `.npmrc` file
 with an access token to Keybas' private NPM registry.
 
-### Project configuration
+### Project configuration (env vars)
 
 This project is configured through environment variables. They should be set either
-in the external environment (from command-line, docker...) or in the `.env` file when
-it is more practical to do so.
+in the external environment (from command-line, docker...), or preferably in a `.env`
+file, that is more convenient to keep your configuration around.
 
-All required variables are listed in the `.env.example` file. In code, they are
-declared and validated in the `src/boot/environment.ts` file, that you can refer
-to for reference, and that you can update to add your own variables when required.
+All required environment variables are listed in the
+[`deploy/.env.example` file](deploy/.env.example). To get this project working
+out of the box, you can just copy this file to `./.env`, and change the values
+to match your setup.
+
+In code, environment variables are declared and validated in the
+[`src/boot/environment.ts` file](src/boot/environment.ts), that serves as reference,
+and that you can update to add your own variables.
+
+When making changes to this project's environment variables, you should update
+both the [`deploy/.env.example` file](deploy/.env.example), and the
+[`deploy/docker-compose.yml` file](deploy/docker-compose.yml), to document
+your changes.
 
 ## Development
+
+This project has been configured for Node.js v16 (LTS) and NPM 8. If you're often
+working with other projects, you can install `nvm`
+([Linux version](https://github.com/nvm-sh/nvm),
+[Windows version](https://github.com/coreybutler/nvm-windows)) to help change
+Node versions quickly and often.
 
 ### Workflow
 
@@ -112,6 +146,23 @@ Also, it should not contain sensitive information. Pino allows you to
 request.log.info({ data: "something" }, "The log message comes after the object");
 ```
 
+### Keeping the documentation up-to-date
+
+This project and its artifacts are not used solely by its developers, but also by
+sysadmins, security analysts, QA engineers, other developers, and a bunch of other
+professions. They expect that the documentation is kept up-to-date, in particular:
+
+- [This README](./README.md)
+- The [test/README.md](test/README.md) documentation
+- Most importantly, the deployment documentation:
+  - The [deploy/README.md](deploy/README.md) explaining how to run the project
+  - The [deploy/.env.example](deploy/.env.example) file that documents all
+    environment variables required to run this project (with or without Docker)
+  - The [deploy/docker-compose.yml](deploy/docker-compose.yml) file that documents
+    all the first-party or third-party services and their configuration
+
+When making changes to the project that would
+
 ## Testing
 
 The test runner is [Mocha](https://mochajs.org/). The assertion library in use is
@@ -121,33 +172,12 @@ For more details on how to write tests, see [test/README.md](test/README.md);
 
 ## Deployment
 
-### Manual
+The easiest way to get this project up and running on a server or on your computer
+is using [Docker](https://www.docker.com/).
 
-You need to:
+For more details on how to deploy, see [deploy/README.md](deploy/README.md);
 
-- Spin up a MongoDB database
-- Clone this repository
-- Create a `.npmrc` file and configure an access token to Keybas' private NPM registry
-- Run `npm ci` to install required dependencies
-- Create a `.env` file and configure all environment variables
+## Troubleshooting
 
-Then will be able to run the following commands to build _then_ run the project:
-
-```sh
-npm run build
-npm run start
-```
-
-### With Docker
-
-There is a Gitlab CI job configured that publishes a Docker image in the
-private container registry for this project. This job is run every time a
-commit is pushed/merged onto the `main` branch.
-
-It is possible to pull and run this image locally or on a server, after
-authenticating with `docker login`. You can also generate this image
-locally with `docker build .` after cloning the repository.
-
-It is recommended to use docker-compose to run this project. You will
-need to depend on a MongoDB database (that may be external), and to
-configure all environment variables in your Dockerfile.
+If you're running into an issue with this project, please check the troubleshooting
+section in [deploy/README.md](deploy/README.md#troubleshooting).

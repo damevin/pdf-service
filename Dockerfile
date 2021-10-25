@@ -1,5 +1,5 @@
 # Prepare
-FROM node:14-bullseye-slim AS build-env
+FROM node:16-bullseye-slim AS build-env
 WORKDIR /app
 COPY .npmrc ./
 COPY tsconfig.json ./
@@ -12,7 +12,7 @@ RUN npm run build
 RUN npm ci --production
 
 # Package
-FROM node:14-bullseye-slim
+FROM node:16-bullseye-slim
 USER node
 WORKDIR /app
 COPY --chown=node --from=build-env /app/node_modules ./node_modules
