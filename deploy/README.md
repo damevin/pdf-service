@@ -15,6 +15,7 @@
     - [Command not found or not recognized](#command-not-found-or-not-recognized)
     - [The MongoDB connection isn't established](#the-mongodb-connection-isnt-established)
     - [Missing `pino-pretty` module](#missing-pino-pretty-module)
+    - [Test pipelines fail without reason](#test-pipelines-fail-without-reason)
 
 ## Manual deployment
 
@@ -125,3 +126,25 @@ The `pino-pretty` package is installed as a dev-only dependency. If you're runni
 the project as a Docker container, dev dependencies are not included and you should
 set the `NODE_ENV` environment variable to `production` to prevent the application
 from trying to load `pino-pretty`.
+
+### Test pipelines fail without reason
+
+Sometimes most CI pipelines will fail at once, seemingly without good reason (for
+instance, the build works locally, whereas the build in the CI environment fails).
+That is often caused by the expiration of the pipeline's NPM cache. The job log
+will show the following messages somewhere before the main script execution:
+
+```text
+Restoring cache
+Checking cache for <hash>...
+FATAL: file does not exist
+Failed to extract cache
+```
+
+There is a cache generated every time the `package.json` file is updated, that is set
+to expire after 14 days. This error means that this cache has expired (or has not been
+generated at all, in case the repository has just been created).
+
+The current workaround, until CI jobs have better cache management abilities, is to
+update the `package.json` (you can make a minor update to a dev package, or bump up
+the minor version number of the project, or something). Improvise. Adapt. Overcome.

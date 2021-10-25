@@ -1,5 +1,18 @@
 # Testing this project
 
+## Table of contents
+
+- [Testing this project](#testing-this-project)
+  - [Table of contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Writing tests](#writing-tests)
+  - [Route tests](#route-tests)
+  - [Unit tests](#unit-tests)
+  - [Test-driven development](#test-driven-development)
+  - [Further reading](#further-reading)
+
+## Introduction
+
 The test runner is [Mocha](https://mochajs.org/). The assertion library in
 use is Node's native [`assert` module](https://nodejs.org/docs/latest-v14.x/api/assert.html).
 
