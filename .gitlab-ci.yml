@@ -111,7 +111,8 @@ publish:
     - export VERSION=$(cat package.json | jq -r .version)
   script:
     - docker build --pull --tag "$IMAGE_TAG" .
-    - docker tag $IMAGE_TAG $IMAGE_TAG:$VERSION $IMAGE_TAG:latest
+    - docker tag $IMAGE_TAG $IMAGE_TAG:$VERSION
+    - docker tag $IMAGE_TAG $IMAGE_TAG:latest
     - docker push $IMAGE_TAG
     - docker push $IMAGE_TAG:$VERSION
     - docker push $IMAGE_TAG:latest

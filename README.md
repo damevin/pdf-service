@@ -161,8 +161,6 @@ professions. They expect that the documentation is kept up-to-date, in particula
   - The [deploy/docker-compose.yml](deploy/docker-compose.yml) file that documents
     all the first-party or third-party services and their configuration
 
-When making changes to the project that would
-
 ## Testing
 
 The test runner is [Mocha](https://mochajs.org/). The assertion library in use is

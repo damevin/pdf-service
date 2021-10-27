@@ -61,7 +61,7 @@ you with this file (it must stay private — do not commit it!).
 ### Running the image
 
 In order to run, this project needs a MongoDB database, and values for the environment
-variables shown in the project's [`.env.example`](../.env.example) file.
+variables shown in the project's [`.env.example`](./.env.example) file.
 
 Using Docker, this requires you to:
 
