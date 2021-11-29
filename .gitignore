@@ -5,6 +5,7 @@ tmp
 build
 coverage
 junit.xml
+gl-codequality.json
 
 # Local files
 .npmrc

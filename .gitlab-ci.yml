@@ -58,6 +58,7 @@ test-format:
   <<: *merge_requests
   script:
     - npm run lint:format
+  allow_failure: true
 
 test-quality:
   <<: *merge_requests
@@ -77,7 +78,7 @@ test-mocha:
   script:
     # libcurl4 is required to run mongodb-memory-server
     - apt-get update -qq && apt-get install -y -qq libcurl4
-    - npm run test:ci
+    - npm run test
   artifacts:
     reports:
       cobertura: coverage/cobertura-coverage.xml
