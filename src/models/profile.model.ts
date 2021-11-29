@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { Document, LeanDocument, model, Schema } from "mongoose";
 import { Fields, Timestamps, timestamps } from "./utils";
 
 export interface ProfileBase {
@@ -12,7 +12,9 @@ export interface ProfileBase {
   city: string;
 }
 
-export interface Profile extends Document, ProfileBase, Timestamps {}
+export interface ProfileDoc extends Document, ProfileBase, Timestamps {}
+
+export interface Profile extends LeanDocument<ProfileDoc> {}
 
 const profileFields: Fields<ProfileBase> = {
   archived: { type: Boolean, default: false, index: true },
@@ -22,5 +24,5 @@ const profileFields: Fields<ProfileBase> = {
   ...timestamps,
 };
 
-const profileSchema = new Schema<Profile>(profileFields, { timestamps: true });
-export const Profiles = model<Profile>("profiles", profileSchema);
+const profileSchema = new Schema<ProfileDoc>(profileFields, { timestamps: true });
+export const ProfileModel = model<ProfileDoc>("profiles", profileSchema);

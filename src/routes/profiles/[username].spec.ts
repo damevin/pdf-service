@@ -2,7 +2,7 @@
 import { getRouteWithParams } from "$test-helpers/routes";
 import { app } from "$test-helpers/root-hooks";
 import { strictEqual } from "assert";
-import { createTestProfile, deleteTestProfiles } from "$test-fixtures/profiles";
+import { deleteTestProfiles, profileFactory } from "$test-fixtures/profiles";
 import { FastifyError } from "fastify-error";
 import { ProfileResponse } from "$schemas/profiles.schemas";
 
@@ -15,7 +15,7 @@ describe(route.route, function () {
 
   describe("GET", function () {
     it("returns the correct user data", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const url = route.build(testUser.username);
 
       const response = await app.inject(url);
@@ -27,7 +27,7 @@ describe(route.route, function () {
     });
 
     it("doesn't return a user that does not exist", async function () {
-      await createTestProfile({ username: "Found" });
+      await profileFactory.create({ username: "Found" });
       const url = route.build("NotFound");
 
       const response = await app.inject(url);
@@ -37,7 +37,7 @@ describe(route.route, function () {
     });
 
     it("doesn't return a user that has been archived", async function () {
-      const testUser = await createTestProfile({ archived: true });
+      const testUser = await profileFactory.create({ archived: true });
       const url = route.build(testUser.username);
 
       const response = await app.inject(url);
@@ -49,7 +49,7 @@ describe(route.route, function () {
 
   describe("PUT", function () {
     it("expects a payload", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const url = route.build(testUser.username);
 
       const response = await app.inject({ url, method: "PUT" });
@@ -57,7 +57,7 @@ describe(route.route, function () {
     });
 
     it("fails if not authenticated", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const url = route.build(testUser.username);
       const payload = {
         username: "NewName",
@@ -71,7 +71,7 @@ describe(route.route, function () {
     });
 
     it("updates the profile correctly", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const url = route.build(testUser.username);
       const headers = { authorization: "Bearer " + String(testUser._id) };
       const payload = {
@@ -93,7 +93,7 @@ describe(route.route, function () {
     });
 
     it("can keep the same username", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const url = route.build(testUser.username);
       const headers = { authorization: "Bearer " + String(testUser._id) };
       const payload = {
@@ -106,8 +106,8 @@ describe(route.route, function () {
     });
 
     it("cannot replace an existing username", async function () {
-      const testUser = await createTestProfile();
-      const otherUser = await createTestProfile({ username: "OtherUser" });
+      const testUser = await profileFactory.create();
+      const otherUser = await profileFactory.create({ username: "OtherUser" });
       const url = route.build(testUser.username);
       const headers = { authorization: "Bearer " + String(testUser._id) };
       const payload = {
@@ -122,7 +122,7 @@ describe(route.route, function () {
     });
 
     it("cannot update another user's profile", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const url = route.build("OtherUser");
       const headers = { authorization: "Bearer " + String(testUser._id) };
       const payload = {

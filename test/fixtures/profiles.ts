@@ -1,24 +1,19 @@
-import { Profile, ProfileBase, Profiles } from "$models/profile.model";
-import { ProfileBody } from "$schemas/profiles.schemas";
-import { factory } from "factory-girl";
+import { ProfileBase, ProfileDoc, ProfileModel } from "$models/profile.model";
+import { Factory } from "fishery";
 import faker from "faker";
 
-factory.define<ProfileBody>("Profile", Profiles, {
-  archived: false,
-  username: () => faker.name.firstName(),
-  bio: () => faker.lorem.sentence(),
-  city: () => faker.address.city(),
+export const profileFactory = Factory.define<ProfileBase, unknown, ProfileDoc>(({ onCreate }) => {
+  // Allow .create() to insert into DB
+  onCreate(async (base) => await ProfileModel.create(base));
+
+  return {
+    archived: false,
+    username: faker.name.firstName(),
+    bio: faker.lorem.sentence(),
+    city: faker.address.city(),
+  };
 });
 
-export const createTestProfile = async (params: Partial<ProfileBase> = {}): Promise<Profile> => {
-  const testProfile = await factory.build<ProfileBody>("Profile", params);
-  return await insertTestProfile(testProfile);
-};
-
-export const insertTestProfile = async (testProfile: ProfileBody): Promise<Profile> => {
-  return await Profiles.create(testProfile);
-};
-
 export const deleteTestProfiles = async (): Promise<void> => {
-  await Profiles.deleteMany({});
+  await ProfileModel.deleteMany({});
 };

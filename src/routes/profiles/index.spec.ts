@@ -2,10 +2,9 @@
 import { getRoute } from "$test-helpers/routes";
 import { app } from "$test-helpers/root-hooks";
 import { strictEqual } from "assert";
-import { deleteTestProfiles, insertTestProfile } from "$test-fixtures/profiles";
+import { deleteTestProfiles, profileFactory } from "$test-fixtures/profiles";
 import { FastifyError } from "fastify-error";
-import { ProfileBody, ProfileResponse } from "$schemas/profiles.schemas";
-import { factory } from "factory-girl";
+import { ProfileResponse } from "$schemas/profiles.schemas";
 
 const url = getRoute(__filename);
 
@@ -16,7 +15,7 @@ describe(url, function () {
 
   describe("POST", function () {
     it("creates a profile", async function () {
-      const payload = await factory.build<ProfileBody>("Profile");
+      const payload = profileFactory.build();
       const response = await app.inject({ url, method: "POST", payload });
       const profile = response.json()?.profile as ProfileResponse["profile"];
       strictEqual(response.statusCode, 200, response.payload);
@@ -31,15 +30,14 @@ describe(url, function () {
     });
 
     it("cannot create a profile with an empty username", async function () {
-      const payload = await factory.build<ProfileBody>("Profile", { username: "" });
+      const payload = profileFactory.build({ username: "" });
       const response = await app.inject({ url, method: "POST", payload });
       strictEqual(response.statusCode, 400, response.payload);
     });
 
     it("cannot use an existing username", async function () {
-      const profile1 = await factory.build<ProfileBody>("Profile");
-      const profile2 = await factory.build<ProfileBody>("Profile", { username: profile1.username });
-      await insertTestProfile(profile1);
+      const profile1 = await profileFactory.create();
+      const profile2 = profileFactory.build({ username: profile1.username });
 
       const response = await app.inject({ url, method: "POST", payload: profile2 });
       const error = response.json() as FastifyError;

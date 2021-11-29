@@ -37,8 +37,8 @@ json-schema-faker), perform property-based testing (like fast-check), or
 anything else, please go ahead!
 
 In the test examples, [`faker`](https://github.com/Marak/Faker.js) and
-[`factory-girl`](https://github.com/simonexmachina/factory-girl) are used
-to generate fake data.
+[`fishery`](https://github.com/thoughtbot/fishery) are used to generate
+fake data.
 
 ## Route tests
 

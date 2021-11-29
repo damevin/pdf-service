@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import { rejects, strictEqual } from "assert";
-import { createTestProfile, deleteTestProfiles } from "$test-fixtures/profiles";
+import { deleteTestProfiles, profileFactory } from "$test-fixtures/profiles";
 import { getUser } from "$services/pre-handlers/auth.service";
 import { Types } from "mongoose";
 
@@ -11,7 +11,7 @@ describe("Authentication service", function () {
     });
 
     it("returns the current user", async function () {
-      const testUser = await createTestProfile();
+      const testUser = await profileFactory.create();
       const user = await getUser("Bearer " + String(testUser._id));
       strictEqual(user.username, testUser.username);
     });

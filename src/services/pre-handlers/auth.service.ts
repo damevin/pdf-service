@@ -1,6 +1,6 @@
 import type { preHandlerAsyncHookHandler } from "fastify";
 import { Types } from "mongoose";
-import { Profile, Profiles } from "$models/profile.model";
+import { Profile, ProfileModel } from "$models/profile.model";
 import { MalformedAuthHeader, MissingAuthHeader, UserNotFound } from "$errors/auth.errors";
 
 /** Middleware to fetch the currently signed-in user. */
@@ -23,7 +23,7 @@ export const getUser = async (authorization?: string): Promise<Profile> => {
 
   // Fetch user
   const id = new Types.ObjectId(idString);
-  const user = await Profiles.findById(id);
+  const user = await ProfileModel.findById(id).lean();
   if (!user) {
     throw new UserNotFound();
   }
