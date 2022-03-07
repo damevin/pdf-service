@@ -13,7 +13,6 @@
     - [Supervision](#supervision)
   - [Troubleshooting](#troubleshooting)
     - [Command not found or not recognized](#command-not-found-or-not-recognized)
-    - [The MongoDB connection isn't established](#the-mongodb-connection-isnt-established)
     - [Missing `pino-pretty` module](#missing-pino-pretty-module)
     - [Test pipelines fail without reason](#test-pipelines-fail-without-reason)
 
@@ -22,12 +21,11 @@
 You need to:
 
 1. Have [Node.js](https://nodejs.org/en/) installed on your machine
-2. Spin up a [MongoDB database](https://www.mongodb.com/)
-3. Clone this repository locally using Git, and `cd` into the directory
-4. Create a `.npmrc` file and configure an access token to Keybas' private NPM registry ;
+2. Clone this repository locally using Git, and `cd` into the directory
+3. Create a `.npmrc` file and configure an access token to Keybas' private NPM registry ;
    you can ask us to provide you with this file (it must stay private — do not commit it!)
-5. Run `npm ci` to install required dependencies
-6. Create a `.env` file and configure all environment variables
+4. Run `npm ci` to install required dependencies
+5. Create a `.env` file and configure all environment variables
 
 Then will be able to run the following commands to build _then_ run the project:
 
@@ -60,16 +58,15 @@ you with this file (it must stay private — do not commit it!).
 
 ### Running the image
 
-In order to run, this project needs a MongoDB database, and values for the environment
+In order to run, this project needs values for the environment
 variables shown in the project's [`.env.example`](./.env.example) file.
 
 Using Docker, this requires you to:
 
 1. Create a `.env` file with all the right variables declared
-2. Pull a [`mongo` image](https://hub.docker.com/_/mongo)
-3. Create a network to allow communication between this service and the database
-4. Create volumes for data persistence (for both the DB and this service)
-5. Run both images with the correct network, volumes, and environment variables
+2. Create a network to allow communication between this service and the database
+3. Create volumes for data persistence (for both the DB and this service)
+4. Run both images with the correct network, volumes, and environment variables
 
 It is easier, and recommended, to use a Compose file to run this project.
 For a working example, take a look at the [`docker-compose.yml`](docker-compose.yml)
@@ -108,17 +105,6 @@ TODO
 When running an NPM script (for instance `npm run build`), this error happens
 when the required dependencies are missing. Simply run `npm ci` on the command
 line to install all the project's dependencies, then try again.
-
-### The MongoDB connection isn't established
-
-Make sure the MongoDB server is running and that you can access it using another
-client (for instance Robo3T).
-
-If the MongoDB server is configured with a SSL/TLS certificate, you should set
-the `MONGODB_SECURE` environment variable to either `tls` or `self-signed`,
-depending on whether the certificate has been emitted by a trusted certificate
-authority (for instance Let's Encrypt), or has been self-generated and signed
-(for instance using OpenSSL). Default is `off`.
 
 ### Missing `pino-pretty` module
 

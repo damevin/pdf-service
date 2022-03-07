@@ -3,9 +3,6 @@
 This is a skeleton project for a REST API using [NodeJS](https://nodejs.org/en/),
 [TypeScript](https://www.typescriptlang.org/) and [Fastify](https://www.fastify.io/).
 
-It connects to a [MongoDB database](https://www.mongodb.com/) using
-[Mongoose](https://mongoosejs.com/).
-
 ## Table of contents
 
 - [Backend skeleton project](#backend-skeleton-project)
@@ -93,7 +90,6 @@ src/
   boot/     Startup files. Code related to preparing and starting the server.
             Files in this directory are ignored by the test coverage.
   errors/   A single place to declare custom errors classes for the whole project.
-  models/   Database (Mongoose) models.
   routes/   All files in this directory are loaded as "routes", i.e. API endpoints, aka controllers.
   schemas/  A single place to store all JSON schemas used to validate the routes' inputs and outputs.
   services/ Everything that should be abstracted from the routes.

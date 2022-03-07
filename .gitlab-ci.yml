@@ -76,8 +76,6 @@ test-build:
 test-mocha:
   <<: *merge_requests
   script:
-    # libcurl4 is required to run mongodb-memory-server
-    - apt-get update -qq && apt-get install -y -qq libcurl4
     - npm run test
   artifacts:
     reports:

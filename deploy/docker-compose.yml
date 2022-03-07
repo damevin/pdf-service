@@ -7,22 +7,6 @@ networks:
     driver: bridge
 
 services:
-  # MongoDB database service
-  mongodb:
-    image: bitnami/mongodb:${MONGODB_VERSION}
-    environment:
-      - MONGODB_ENABLE_JOURNAL=false
-      - MONGODB_PORT_NUMBER=${MONGODB_PORT:-27017}
-      - MONGODB_DATABASE
-      - MONGODB_USERNAME
-      - MONGODB_PASSWORD
-    networks:
-      - app-tier
-    volumes:
-      - type: bind
-        source: ./data-persistence
-        target: /bitnami/mongodb
-
   # Service for this project
   api:
     image: registry.gitlab.com/france-atelier/templates/template-backend-fastify:${APP_VERSION}
@@ -31,12 +15,6 @@ services:
       - PORT=${APP_PORT}
       - NODE_ENV=production
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      # Database credentials
-      - MONGODB_HOST=mongodb:${MONGODB_PORT:-27017}
-      - MONGODB_DATABASE
-      - MONGODB_USERNAME
-      - MONGODB_PASSWORD
-      - MONGODB_SECURE=off # always off in Docker
       # Other environment variables
     networks:
       - app-tier
