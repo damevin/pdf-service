@@ -6,8 +6,7 @@ import formbody from "fastify-formbody";
 import multer from "fastify-multer";
 import { join } from "path";
 import pkg from "../package.json";
-import { Context, ContextAuth } from "$services/pre-handlers/helpers";
-import { NotSignedIn } from "$errors/auth.errors";
+import { Context } from "$services/pre-handlers/helpers";
 
 export const setupApp = (server: FastifyInstance): FastifyInstance => {
   // Configure the server
@@ -26,12 +25,6 @@ export const setupApp = (server: FastifyInstance): FastifyInstance => {
   server.decorateRequest("getContext", function (): Context {
     return { log: this.log };
   });
-  server.decorateRequest("getContextAuth", function (): ContextAuth {
-    if (!this.user) {
-      throw new NotSignedIn();
-    }
-    return { log: this.log, user: this.user };
-  });
 
   // Load routes
   server.register(fastifyNow, {
@@ -47,7 +40,6 @@ declare module "fastify" {
   export interface FastifyRequest {
     file?: MulterFile;
     getContext: () => Context;
-    getContextAuth: () => ContextAuth;
   }
 
   export interface FastifyInstance {
