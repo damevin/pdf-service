@@ -18,5 +18,5 @@ export const setupFonts = (log: FastifyLoggerInstance) => {
   return () => {
     log.info("Cleaning up fonts...");
     unlinkSync(fontsDir);
-  }
+  };
 };

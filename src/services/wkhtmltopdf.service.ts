@@ -118,10 +118,10 @@ export class Wkhtmltopdf {
     });
     worker.stderr.on("data", (chunk) => {
       const str = String(chunk as Buffer)
-        .split(/\r?\n/)
+        .split(/\r|\n/)
         .map((line) => line.trim())
-        .filter((line) => !/[=>[\]]/.test(line))
         .filter(Boolean)
+        .filter((line) => !/[=>[\]]/.test(line))
         .join("\n");
       if (str) {
         ctx.log.info("WORKER: " + str);
