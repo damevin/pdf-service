@@ -21,6 +21,11 @@ export const setupApp = (server: FastifyInstance): FastifyInstance => {
   server.register(multer.contentParser);
   server.register(formbody);
 
+  // Return the stream directly for text/* requests
+  server.addContentTypeParser(/^text\/.*/, async (request, payload, done) => {
+    return payload;
+  });
+
   // Request helpers
   server.decorateRequest("getContext", function (): Context {
     return { log: this.log };
