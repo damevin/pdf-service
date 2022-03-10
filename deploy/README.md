@@ -27,6 +27,12 @@ You need to:
 4. Run `npm ci` to install required dependencies
 5. Create a `.env` file and configure all environment variables
 
+For this project, you also need [`wkhtmltopdf`](https://wkhtmltopdf.org/downloads.html)
+installed and present in your path. We recommend to install the latest patched version
+from the website instead of the version packaged by your distribution's maintainers.
+
+On Windows, you will need to add `C:\Program Files\wkhtmltopdf\bin` to your path.
+
 Then will be able to run the following commands to build _then_ run the project:
 
 ```sh

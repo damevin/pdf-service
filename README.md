@@ -1,12 +1,15 @@
 # Backend skeleton project
 
-This is a skeleton project for a REST API using [NodeJS](https://nodejs.org/en/),
+HTML to PDF conversion server, built using [NodeJS](https://nodejs.org/en/),
 [TypeScript](https://www.typescriptlang.org/) and [Fastify](https://www.fastify.io/).
 
 ## Table of contents
 
 - [Backend skeleton project](#backend-skeleton-project)
   - [Table of contents](#table-of-contents)
+  - [Usage](#usage)
+    - [Generate a PDF](#generate-a-pdf)
+    - [Fonts](#fonts)
   - [Configuration](#configuration)
     - [NPM configuration](#npm-configuration)
     - [Project configuration (env vars)](#project-configuration-env-vars)
@@ -14,12 +17,58 @@ This is a skeleton project for a REST API using [NodeJS](https://nodejs.org/en/)
     - [Workflow](#workflow)
     - [Commands](#commands)
     - [Project structure](#project-structure)
+    - [Add a new font](#add-a-new-font)
     - [Writing routes](#writing-routes)
     - [Logging](#logging)
     - [Keeping the documentation up-to-date](#keeping-the-documentation-up-to-date)
   - [Testing](#testing)
   - [Deployment](#deployment)
   - [Troubleshooting](#troubleshooting)
+
+## Usage
+
+### Generate a PDF
+
+When the service is running (read on to know how to deploy the service), it exposes
+a `/generate` endpoint that accepts POST requests with the `text/html` Content-Type.
+
+This endpoint replies with a PDF file. In case of an error, the result may be empty (zero bytes).
+
+Example:
+
+```sh
+curl -d @myFile.html -H 'Content-Type: text/html' http://localhost:4010/generate -o output.pdf
+```
+
+### Fonts
+
+By default, there are no fonts installed on the server. Declaring `font-family: sans-serif`
+should result in black squares instead of letters.
+
+You can load fonts using the custom CSS present locally on the server. The following fonts
+are available at the moment:
+
+- IBM Plex Sans
+- League Spartan
+- Zilla Slab
+
+```html
+<!-- For maximum performance, only load the ones you actually need -->
+<link href="fonts/ibm-plex-sans.css" rel="stylesheet" />
+<link href="fonts/league-spartan.css" rel="stylesheet" />
+<link href="fonts/zilla-slab.css" rel="stylesheet" />
+<style>
+  html {
+    font-family: "IBM Plex Sans";
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Zilla Slab";
+  }
+</style>
+```
 
 ## Configuration
 
@@ -98,7 +147,39 @@ test/
   fixtures/ Utilities specifically used to generate or inject test data.
   helpers/  General testing utilities.
   unit/     Unit tests for services.
+
+fonts/      Font files.
 ```
+
+### Add a new font
+
+The underlying QtWebkit engine doesn't support WOFF2 fonts, but supports WOFF.
+To add a new font, you simply need to create a CSS file for that font in the `fonts/`
+directory, with all the standard `@font-face` declarations needed.
+It is good practice to create a subdirectory for the WOFF files.
+
+If you want to use a font from Google Fonts, you can use the
+[Google Webfonts Helper](https://google-webfonts-helper.herokuapp.com)
+application to speed up the process. Simply:
+
+1. Select the font you want
+2. Select the `latin` and `latin-ext` charsets
+3. Check _all_ styles
+4. Click "Modern browsers" in order to download only WOFF and WOFF2 font files
+5. Change the prefix to the folder you created in the `fonts/` directory
+6. Download the font files and put them in the folder you created
+7. Copy the CSS and paste it in a new CSS file
+8. You can remove `woff2` declarations from the CSS and `woff2` files from the folder.
+   I use the following regexes to quickly remove all unwanted code from the CSS,
+   then run the formatter (otherwise the file won't be valid):
+
+   ```txt
+   .+39\+ \*/
+   /\* Chrome .+\*/
+   ```
+
+Once a font has been added, you can update the documentation at the [Fonts](#fonts) section
+of the current README file. Commit the CSS, WOFF files, and README.md, push, and you're done!
 
 ### Writing routes
 
