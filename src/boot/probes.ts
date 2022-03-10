@@ -9,7 +9,7 @@ export const addProbes = (server: FastifyInstance, exitHooks: (() => Promise<voi
   const manualShutdown = gracefulShutdown(server.server, {
     development: false,
     // Handle classic shutdown signals, and ts-node-dev restart
-    signals: "SIGINT SIGTERM SIGKILL disconnect",
+    signals: "SIGINT SIGTERM disconnect",
     preShutdown: async (signal) => {
       server.log.info("Shutting down server after receiving %s signal", signal);
       while (exitHooks.length > 0) {
