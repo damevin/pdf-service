@@ -1,10 +1,8 @@
 import { Readable } from "stream";
 import { performance } from "perf_hooks";
 import { Context } from "./pre-handlers/helpers";
-import { Wkhtmltopdf } from "./wkhtmltopdf.service";
-
-// Instantiate a new converter with default options.
-const converter = new Wkhtmltopdf();
+import { fontsDir } from "$boot/fonts";
+import { converter } from "$boot/wkhtmltopdf";
 
 const monitor = (ctx: Context, stream: NodeJS.ReadableStream): void => {
   const t1 = performance.now();
@@ -26,7 +24,7 @@ export const convert = (ctx: Context, input: Readable): Readable => {
     pageSize: "A4",
     disableJavascript: true,
     javascriptDelay: 0,
-    allow: "fonts",
+    allow: fontsDir,
     disableLocalFileAccess: true,
   });
 

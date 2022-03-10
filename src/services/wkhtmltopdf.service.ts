@@ -3,6 +3,7 @@ import { paramCase } from "param-case";
 import { ChildProcessWithoutNullStreams as CPWNS, spawn } from "child_process";
 import { Context } from "./pre-handlers/helpers";
 import { Readable } from "stream";
+import { FastifyLoggerInstance } from "fastify";
 
 /*
  * Portions of this code are based on MIT licensed code from:
@@ -100,10 +101,6 @@ export class Wkhtmltopdf {
     if (this.maxWorkers > 0) {
       process.nextTick(() => this.workerMonitor());
     }
-
-    process.on("exit", () => {
-      this.destroy();
-    });
   }
 
   // HTML to PDF
@@ -163,10 +160,10 @@ export class Wkhtmltopdf {
     return args;
   }
 
-  destroy() {
+  destroy(logger: FastifyLoggerInstance) {
     // Prevent new workers from being spawned, then kill all existing workers
     this.maxWorkers = 0;
-    console.log("Shutting down", this.workers.length + this.running.length, "workers");
+    logger.info("Shutting down %d workers", this.workers.length + this.running.length);
     while (this.workers.length > 0 || this.running.length > 0) {
       const worker = this.workers.shift() ?? this.running.shift();
       if (worker && worker.exitCode === null) {
@@ -179,14 +176,14 @@ export class Wkhtmltopdf {
   private launchWorker() {
     if (os.platform() === "win32") {
       // /bin/sh doesn't exist on Windows, invoke wkhtmltopdf directly
-      return spawn(this.binary, [/* "--quiet", */ "--read-args-from-stdin"], {
+      return spawn(this.binary, ["--read-args-from-stdin"], {
         env: { ...process.env },
         cwd: process.cwd(),
         shell: false,
       });
     }
     // using `sh -c ${cmd} | cat` construction because of an issue with stdin/stdout on Linux.
-    return spawn("/bin/sh", ["-c", `${this.binary} --quiet --read-args-from-stdin | cat`], {
+    return spawn("/bin/sh", ["-c", `${this.binary} --read-args-from-stdin | cat`], {
       env: { ...process.env },
       cwd: process.cwd(),
       shell: false,
