@@ -4,7 +4,10 @@ import gracefulShutdown from "http-graceful-shutdown";
 import fastifyMetrics from "fastify-metrics";
 
 /** Handle graceful start and graceful shutdown for PM2, K8S, etc. */
-export const addProbes = (server: FastifyInstance, exitHooks: (() => Promise<void> | void)[]): void => {
+export const addProbes = (
+  server: FastifyInstance,
+  exitHooks: (() => Promise<void> | void)[]
+): void => {
   // Intercept SIGINT and SIGTERM signals
   const manualShutdown = gracefulShutdown(server.server, {
     development: false,
