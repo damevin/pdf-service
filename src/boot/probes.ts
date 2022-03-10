@@ -2,15 +2,22 @@
 import type { FastifyInstance } from "fastify";
 import gracefulShutdown from "http-graceful-shutdown";
 import fastifyMetrics from "fastify-metrics";
-import { env } from "./environment";
 
 /** Handle graceful start and graceful shutdown for PM2, K8S, etc. */
-export const addProbes = (server: FastifyInstance): void => {
-  // Intercept SIGINT and SIGTERM signals (except in devevelop)
+export const addProbes = (server: FastifyInstance, exitHooks: (() => Promise<void> | void)[]): void => {
+  // Intercept SIGINT and SIGTERM signals
   const manualShutdown = gracefulShutdown(server.server, {
-    development: env.isDevelopment,
-    onShutdown: async (signal) => {
+    development: false,
+    // Handle classic shutdown signals, and ts-node-dev restart
+    signals: "SIGINT SIGTERM SIGKILL disconnect",
+    preShutdown: async (signal) => {
       server.log.info("Shutting down server after receiving %s signal", signal);
+      while (exitHooks.length > 0) {
+        const hook = exitHooks.shift();
+        if (hook) {
+          await hook();
+        }
+      }
     },
   });
 

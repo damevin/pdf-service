@@ -15,7 +15,7 @@ const start = () => {
 
   // Add plugins
   addSecurity(server);
-  addProbes(server);
+  addProbes(server, []);
 
   // Start the server
   server.listen(env.PORT, env.HOST, (error) => {
