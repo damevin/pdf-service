@@ -1,0 +1,72 @@
+/* league-spartan-100 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 100;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-100.woff") format("woff");
+}
+
+/* league-spartan-200 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 200;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-200.woff") format("woff");
+}
+
+/* league-spartan-300 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 300;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-300.woff") format("woff");
+}
+
+/* league-spartan-regular - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""),
+    url("league-spartan/league-spartan-v4-latin-ext_latin-regular.woff") format("woff");
+}
+
+/* league-spartan-600 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 600;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-600.woff") format("woff");
+}
+
+/* league-spartan-500 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 500;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-500.woff") format("woff");
+}
+
+/* league-spartan-700 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 700;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-700.woff") format("woff");
+}
+
+/* league-spartan-800 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 800;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-800.woff") format("woff");
+}
+
+/* league-spartan-900 - latin-ext_latin */
+@font-face {
+  font-family: "League Spartan";
+  font-style: normal;
+  font-weight: 900;
+  src: local(""), url("league-spartan/league-spartan-v4-latin-ext_latin-900.woff") format("woff");
+}
