@@ -32,6 +32,7 @@ interface HtmlToPdfOptions {
   imageDpi?: number;
   imageQuality?: number;
   lowquality?: boolean;
+  encoding: string;
 
   "margin-bottom"?: number;
   "margin-left"?: number;
@@ -43,6 +44,10 @@ interface HtmlToPdfOptions {
 
   /** Page orientation. Defaults to Landscape. */
   orientation?: "Landscape" | "Portrait";
+
+  /** Header and footer options */
+  "footer-center": string;
+
   /** Page size. Defaults to A4. See full list: https://doc.qt.io/archives/qt-4.8/qprinter.html#PaperSize-enum */
   pageSize?: string | "A4" | "Letter";
   /** Disable JavaScript (recommended). */

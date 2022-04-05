@@ -26,6 +26,9 @@ export const convert = (ctx: Context, input: Readable): Readable => {
     javascriptDelay: 0,
     allow: fontsDir,
     disableLocalFileAccess: true,
+    encoding: "utf-8",
+    'footer-center': "Page [page] sur [topage]",
+    "margin-bottom": 20,
   });
 
   // Performance monitoring
