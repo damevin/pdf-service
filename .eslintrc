@@ -5,7 +5,7 @@
     "node": true,
     "es2021": true
   },
-  "extends": ["@france-atelier/eslint-config-backend"],
+  "extends": ["@keybas-engineering/eslint-config-backend"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2021,
